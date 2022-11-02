@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	float x[98], y[98];//x是城市人口，y是利润
+	int i = 0;
+	FILE* fp = fopen("ex1data1.txt", "w+");
+	do
+	{
+		fscanf(fp, "%f,%f", &x[i], &y[i]);
+		i++;
+	} while (i < 98);
+
+	int n;
+	n = sizeof(x) / sizeof(x[0]);//n为范围
+
+	float sumx = 0, sumy = 0;//人数以及利润的总和
+
+	for (int i = 0; i < n; i++)
+	{
+		sumx += x[i];//人口总和
+		sumy += y[i];//
+	}
+
+	float avex = sumx / n;//人口的平均值
+	float avey = sumy / n;//利润的平均值
+
+	float a, b;//斜率a与截距b是公式中的参数Y=a+bX
+	float upb = 0, downb = 0;//b的计算公式中的分子upb，以及分母downb
+	for (int i = 0; i != n; i++)
+	{
+		upb += (x[i] - avex) * (y[i] - avey);
+		downb += (x[i] - avex) * (x[i] - avex);
+	}
+
+	b = upb / downb;
+	a = avey - b * avex;
+
+	printf("y = %fx+%f\n", b, a);
+
+	system("pause");
+	return 0;
+}
